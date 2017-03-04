@@ -62,6 +62,18 @@ This document is step-by-step configuration guide for HASS and various component
    persistence true
    persistence_location /var/lib/mosquitto/
    
+6. Install nginx
+
+   sudo apt-get install nginx
+   
+7. Configure NGINX
+
+add line in  nginx.conf
+
+create new config file
+
+   
+   
    
 
    

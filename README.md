@@ -40,6 +40,28 @@ This document is step-by-step configuration guide for HASS and various component
 
    sudo ./home/pi/hassbian-scripts/install_mosquitto.sh
 
+5. Config bridge with couldmqtt
+
+   sudo systemctl stop mosquitto.service
+   cd /etc/mosquitto/conf.d
+   sudo nano bridge.conf
+   
+   connection couldmqtt
+   address server:port
+   topic owntracks/# in 1
+   try_private true
+   notifications false
+   start_type automatic
+   remote_clientid <client_id>
+   remote_username <user_name>
+   remote_password <password>
+   keep_alive 300
+   cleansession true
+   bridge_protocol_version mqttv31
+
+   persistence true
+   persistence_location /var/lib/mosquitto/
+   
    
 
    

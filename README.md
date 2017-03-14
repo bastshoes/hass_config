@@ -4,9 +4,9 @@ to make external access to HASS through Dataplicity, use MySQL for Recorder and 
 
 1. MySQL install
 
-sudo apt-get install mysql-server
-sudo apt-get install libmysqlclient-dev
-sudo apt-get install mysql-client
+         sudo apt-get install mysql-server
+         sudo apt-get install libmysqlclient-dev
+         sudo apt-get install mysql-client
 
 2. Config MySQL encoding and collation to support non-english characters
    

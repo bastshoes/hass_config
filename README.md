@@ -1,6 +1,6 @@
 # Hassbian configuration
 This document is step-by-step configuration guide for Hassbian preparation and configuration
-to make external access to HASS through Dataplicity, use MySQL for Reorder and bridge with CloudMQTT 
+to make external access to HASS through Dataplicity, use MySQL for Recorder and bridge with CloudMQTT 
 
 1. MySQL install
 

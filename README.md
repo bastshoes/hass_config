@@ -1,5 +1,6 @@
-# hass_config
-This document is step-by-step configuration guide for HASS and various components
+# Hassbian configuration
+This document is step-by-step configuration guide for Hassbian preparation and configuration
+to make external access to HASS through Dataplicity, use MySQL for Reorder and bridge with CloudMQTT 
 
 1. MySQL install
 
@@ -47,20 +48,24 @@ This document is step-by-step configuration guide for HASS and various component
    sudo nano bridge.conf
    
    connection couldmqtt
-   address server:port
-   topic owntracks/# in 1
+   address <your cloudmqtt account>
+   topic # in 1
    try_private true
    notifications false
    start_type automatic
-   remote_clientid <client_id>
-   remote_username <user_name>
-   remote_password <password>
-   keep_alive 300
+   remote_clientid <your client id>
+   remote_username <your user name>
+   remote_password <your password>
+   keepalive_interval 300
    cleansession true
-   bridge_protocol_version mqttv31
-
-   persistence true
-   persistence_location /var/lib/mosquitto/
+   bridge_protocol_version mqttv311
+   local_clientid hass
+   bridge_cafile /etc/ssl/certs/ca-certificates.crt
+   bridge_insecure false
+   
+   Add line in your main Mosquitto config in "External config files" section
+   
+   include_dir /etc/mosquitto/conf.d
    
 6. Install nginx
 
@@ -68,9 +73,56 @@ This document is step-by-step configuration guide for HASS and various component
    
 7. Configure NGINX
 
-add line in  nginx.conf
+add line in  nginx.conf in http section
+
+sudo nano /etc/nginx/nginx.conf
+add folloving lines
+
+map $http_upgrade $connection_upgrade {
+          default upgrade;
+          ''      close;
+        }
 
 create new config file
+
+sudo nano /etc/nginx/sites-enables/hass
+
+server {
+         server_name _;
+         listen 80 default_server;
+         listen [::]:80 default_server ipv6only=on;
+         proxy_buffering off;
+
+
+
+         location / {
+             proxy_pass http://localhost:8123;
+             proxy_set_header Host $host;
+             proxy_redirect http:// http://;
+             proxy_http_version 1.1;
+             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+             proxy_set_header Upgrade $http_upgrade;
+             proxy_set_header Connection $connection_upgrade;
+             }
+            }
+            
+Enable homeassistant configuration
+
+cd /etc/nginx/sites-enabled
+sudo unlink default
+sudo ln ../sites-available/hass default
+
+8. Install Dataplicity agent
+
+   curl https://dataplicity.com/<ACCOUNT_MAGIC_CODE>.py | sudo python
+   
+9. Enable wormhole
+
+   What is wormhole - http://docs.dataplicity.com/docs/host-a-website-from-your-pi
+   
+10. Check your HASS page through public dataplicity address and through local network. 
+
+
 
    
    

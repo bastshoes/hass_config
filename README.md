@@ -3,12 +3,11 @@ This document is step-by-step configuration guide for Hassbian preparation and c
 to make external access to HASS through Dataplicity, use MySQL for Reorder and bridge with CloudMQTT 
 
 1. MySQL install
-
-/
+{
 sudo apt-get install mysql-server
 sudo apt-get install libmysqlclient-dev
 sudo apt-get install mysql-client
-/
+}
 2. Config MySQL encoding and collation to support non-english characters
    
    sudo nano /etc/mysql/conf.d/mysql_ha.cnf

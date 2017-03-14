@@ -43,25 +43,25 @@ to make external access to HASS through Dataplicity, use MySQL for Reorder and b
 
 5. Config bridge with couldmqtt
 
-   sudo systemctl stop mosquitto.service
-   cd /etc/mosquitto/conf.d
-   sudo nano bridge.conf
-   
-   connection couldmqtt
-   address <your cloudmqtt account>
-   topic # in 1
-   try_private true
-   notifications false
-   start_type automatic
-   remote_clientid <your client id>
-   remote_username <your user name>
-   remote_password <your password>
-   keepalive_interval 300
-   cleansession true
-   bridge_protocol_version mqttv311
-   local_clientid hass
-   bridge_cafile /etc/ssl/certs/ca-certificates.crt
-   bridge_insecure false
+sudo systemctl stop mosquitto.service
+cd /etc/mosquitto/conf.d
+sudo nano bridge.conf
+
+connection couldmqtt
+address <your cloudmqtt account>
+topic # in 1
+try_private true
+notifications false
+start_type automatic
+remote_clientid <your client id>
+remote_username <your user name>
+remote_password <your password>
+keepalive_interval 300
+cleansession true
+bridge_protocol_version mqttv311
+local_clientid hass
+bridge_cafile /etc/ssl/certs/ca-certificates.crt
+bridge_insecure false
    
    Add line in your main Mosquitto config in "External config files" section
    

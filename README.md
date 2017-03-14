@@ -4,9 +4,9 @@ to make external access to HASS through Dataplicity, use MySQL for Reorder and b
 
 1. MySQL install
 
-   sudo apt-get install mysql-server
-   sudo apt-get install libmysqlclient-dev
-   sudo apt-get install mysql-client
+sudo apt-get install mysql-server
+sudo apt-get install libmysqlclient-dev
+sudo apt-get install mysql-client
 
 2. Config MySQL encoding and collation to support non-english characters
    
@@ -92,9 +92,6 @@ server {
          listen 80 default_server;
          listen [::]:80 default_server ipv6only=on;
          proxy_buffering off;
-
-
-
          location / {
              proxy_pass http://localhost:8123;
              proxy_set_header Host $host;

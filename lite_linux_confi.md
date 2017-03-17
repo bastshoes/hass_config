@@ -15,3 +15,13 @@
 		sudo systemctl disable display-manager.service
 
 2. Install ssh
+
+		sudo apt-get install ssh
+		
+3. Allow ssh in
+
+		sudo ufw allow ssh
+		
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04
+
+

@@ -25,5 +25,6 @@
 # https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04
 
 4. Allow mysql in
+		
 		sudo ufw allow from 15.15.15.0/24 to any port 3306
 		

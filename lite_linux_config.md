@@ -28,3 +28,10 @@
 		
 		sudo ufw allow from 15.15.15.0/24 to any port 3306
 		
+5. Bind mysql ip to eth0 ip
+
+		sudo /etc/mysql/mysql.conf.d/mysqld.cnf
+		
+		[mysqld]
+		bind-address = <eth0 IP>
+		

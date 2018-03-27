@@ -44,7 +44,7 @@
    - Log off and back in with username root and the password you just created for it. Need 60 sec that ssh config file to be reread.
    - Modify the pi account to new username
    ```
-   usermod -l newname -d /home/newname -m pi
+   usermod -l hassadmin -d /home/hassadmin -m pi
    ```
    - Log off and log back on as your new user name
    - Lock the root account
@@ -69,5 +69,79 @@
      ```
      sudo mv /etc/sudoers.d/010_pi-nopasswd /etc/sudoers.d/010_haadmin-nopasswd
      ```
-
+   - DISABLE IPV6
+     ```
+     sudo nano /etc/sysctl.conf
+     net.ipv6.conf.all.disable_ipv6=1
+     ```
+     save sysctl.conf file ([ctrl+X],Y,[enter],[enter])
+     commit changes to the system
+     ```
+     sudo sysctl -p
+     ```
+8. Prepare USB for storing files with heavy write options
+   - Detect your USB drive
+   ```
+   sudo dmesg|tail -n 20|grep sd
+   ```
+   - Partition the disk into two. One partition will hold the system logs, the other will hold your Home Assistant config
+   ```
+   sudo parted /dev/sda
+   ```
+   - Remove all partitions from USB drive
+   ```
+   rm 1
+   ```
+   - We'll allocate half of this for the logs, and half of it for the database with the following commands:
+   ```
+   mkpart primary 2048s 50%
+   mkpart primary 50% 100%
+   quit
+   ```
+   - Now you'll have 2 partitions /dev/sda1 and /dev/sda2, but they need a file system
+   ```
+   sudo mkfs -t ext4 /dev/sda1
+   sudo mkfs -t ext4 /dev/sda2
+   ```
+  - To use these file systems, edit /etc/fstab
+  ```
+  sudo nano /etc/fstab
+  ```
+  Add the following lines. Replace the parts starting deadbeef-cafe (the UUIDs) with the UUID from previous step.
+  ```
+  UUID=deadbeef-cafe-dead-beef-cafef00f1234    /var/log    ext4    defaults,noatime,nofail    0    0
+  UUID=deadbeef-cafe-dead-beef-cafef00f5678    /mydockers    ext4    defaults,noatime,nofail    0    0
+  ```
+  Making use of /mydockers
+  ```
+  sudo mkdir /mydockers
+  sudo mount /mydockers
+  cd /mydockers
+  mkdir homeautomation
+  ```
+  Create symbolic link in home dir
+  ```
+  cd ~
+  ln -s /mydockers/homeautomation homeautomation
+  ```
+  - Moving the log files
+  ```
+  sudo mv /var/log /var/log-old
+  sudo mkdir /var/log
+  sudo mount /var/log
+  sudo reboot
+  ```
+9. Install Docker
+  ```
+  curl -fsSL get.docker.com -o get-docker.sh
+  sudo sh get-docker.sh
+  ```
   
+10. Add “your” user to “docker” group using the following command
+   ```
+   sudo usermod -aG docker hassadmin
+   ```
+11. Install docker-compose
+   ```
+   sudo pip install docker-compose
+   ```

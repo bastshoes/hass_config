@@ -43,3 +43,4 @@ IP.1   = <YOUR IP>
 DNS.1  = homeassistant.loc
 
 
+openssl x509 -req -days 3650 -in traefik_cert.csr -out traefik_cert.pem -extensions req_ext -extfile req.conf -CA ca.pem -CAkey ca-key.pem
